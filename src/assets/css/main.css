@@ -1,0 +1,93 @@
+/* Space out content a bit */
+body {
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+}
+
+
+
+.navbar {
+	margin-bottom: 10px;
+}
+
+h1,h2 {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+}
+
+.header-line {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+.header-line span {
+	margin-right: 20px;
+}
+
+.tab-content {
+	margin-top: 20px;
+}
+
+#logs {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    border: 1px solid #eea236;
+    z-index: 1000000;
+    background: white;
+    width: 315px;
+    word-wrap: break-word;
+    display: none;
+}
+#logs .list-group-item {
+    border-left: 0;
+    border-right: 0;
+}
+
+.panel-body h4.block-title {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
