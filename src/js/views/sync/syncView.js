@@ -48,7 +48,7 @@ var SyncView = Backbone.View.extend({
 
 	step2: function (message) {
 		if (this.$el.find('#search_peers').length == 0) {
-			this.$el.find('#log-sync').append('<p id="search_peers">поиск пиров <a href="" class="skip_search_peers">Пропустить</a></p>');
+			this.$el.find('#log-sync').append('<p id="search_peers">поиск пиров <a href="#" class="skip_search_peers">Пропустить</a></p>');
 		}
 	},
 
@@ -62,22 +62,29 @@ var SyncView = Backbone.View.extend({
 	},
 
 	openDao: function () {
-
-		var model = _.omit(this.model.toJSON(), '_id');
-		var daos = _.map(config.daos, function(o) { return _.omit(o, '_id'); });
-		var is_dao = _.find(daos, {core_address: model.core_address, core_interface: model.core_interface});
-		if (!is_dao) {
-			daos.push(model);
-			config.daos = daos;
+        var model = _.omit(this.model.toJSON(), '_id');
+		var is_dao = _.find(config.daos, {core_address: model.core_address, core_interface: model.core_interface});
+        if (!is_dao) {
+            var new_dao_id = 1
+            var last_dao = _.last(config.daos);
+            if (last_dao) {
+                new_dao_id = last_dao._id + 1;
+            }
+            console.log('last_dao', new_dao_id);
+            model._id = new_dao_id;
+    		config.daos.push(model);
             var fs = require('fs');
-            var err = fs.writeFileSync(paths.basepath +'/config/default.json', JSON.stringify(daos));
-			if(err) {
-				return console.log(err);
-			}
-		}
+            var err = fs.writeFileSync(paths.basepath +'/config/default.json', JSON.stringify(config.daos));
+            if(err) {
+                return console.log(err);
+            }
+        } else {
+            console.log('dao is', is_dao);
+            model = is_dao;
+        }
 
 		console.log('запускаем app');
-		window.router.navigate("dao/"+ this.model.get('_id'), { trigger: true });
+		window.router.navigate("dao/"+ model._id, { trigger: true });
 	},
 
 	skipSearchPeers: function () {
