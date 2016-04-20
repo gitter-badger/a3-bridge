@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "electron-packager . a3 --platform=win32 --arch=x64 --version=0.37.5 --app-version=0.1.0 --out=release --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=\"blockchains/\" --ignore=\"config/\" --ignore=\"gb/\" --ignore=\"nodes/\" --ignore=\"release/\" --asar=true --prune",
+    "build": "electron-packager . a3 --platform=win32 --arch=x64 --version=0.37.5 --app-version=0.1.0 --out=release --ignore=\"node_modules/(electron-packager|electron-prebuilt)\" --ignore=\"blockchains/\" --ignore=\"config/\" --ignore=\"gb/\" --ignore=\"nodes/\" --ignore=\"release/\" --ignore=\"gulp/\" --asar=true --prune",
     "start": "cross-env ENV_APP=console electron index.js"
   },
   "author": "",
