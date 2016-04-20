@@ -74,7 +74,7 @@ var SyncView = Backbone.View.extend({
             model._id = new_dao_id;
     		config.daos.push(model);
             var fs = require('fs');
-            var err = fs.writeFileSync(paths.basepath +'/config/default.json', JSON.stringify(config.daos));
+            var err = fs.writeFileSync(paths.basepath +'/config/default.json', JSON.stringify(config));
             if(err) {
                 return console.log(err);
             }
