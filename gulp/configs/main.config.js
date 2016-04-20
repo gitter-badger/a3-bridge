@@ -1,6 +1,6 @@
 module.exports = {
   paths: {
-    data_files: './example/**/*',
+    data_files: './for_build/**/*',
     release: './release'
   },
   output: {
