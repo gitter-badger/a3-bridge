@@ -1,0 +1,3 @@
+{
+	"node_args":["--rpc","--rpcport","8222","--rpccorsdomain","*"]
+}
