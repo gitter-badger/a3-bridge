@@ -2,39 +2,37 @@
 
 var Backbone = require('backbone'),
 	hbs = require('../../helpers/hbs'),
-	GenesisblocksCollection = require('../../collections/genesisblocks'),
 	GenesisblocksView = require('./genesisblocksView');
 
-var ImportView = Backbone.View.extend({
+var IndexView = Backbone.View.extend({
 	//tagName:  'div',
-	template: hbs.render('templates/import/import.hbs'),
+	template: hbs.render('templates/blockchains/index.hbs'),
 
 	events: {
-		'click #importBtn' : 'importStart'
+		'click #selectBtn' : 'blockchainStart'
 	},
 
 	views: null,
 
 	initialize: function () {
 		this.views = {};
-		var genesisblocksCollection = new GenesisblocksCollection();
-		this.views.genesisblocks = new GenesisblocksView({collection: genesisblocksCollection});
+		this.views.genesisblocks = new GenesisblocksView({collection: this.collection});
 	},
 
 	render: function () {
-		this.$el.html(this.template());
+		this.$el.html(this.template(this.model.toJSON()));
         this.views.genesisblocks.setElement(this.$el.find('#genesisblocks tbody')).render();
 		return this;
 	},
 
-	importStart: function(e) {
+	blockchainStart: function(e) {
 		e.preventDefault();
 		var genesisblock_id = parseInt(this.$('input[name=genesisblock]:checked').val());
 		if (genesisblock_id) {
 			this.undelegateEvents();
-			window.router.navigate("sync/"+ genesisblock_id, { trigger: true });
+			window.router.navigate("sync/"+ this.model.get('type') +"/"+ genesisblock_id, { trigger: true });
 		}
 	}
 });
 
-module.exports = ImportView;
+module.exports = IndexView;

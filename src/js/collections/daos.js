@@ -9,7 +9,7 @@ var Daos = Backbone.Collection.extend({
 	model: DaoModel,
     initialize: function() {
         this.add(config.daos);
-    },
+    }
 });
 
 module.exports = Daos;

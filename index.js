@@ -25,15 +25,18 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
 
+  // run ipc listeners
+  Helper.run();
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1280, height: 600});
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/src/index.html`);
 
-  mainWindow.webContents.on('did-finish-load', function() {
+  /*mainWindow.webContents.on('did-finish-load', function() {
 	Helper.run();
-  });
+  });*/
 
   // Open the DevTools.
   if (process.env.ENV_APP) {

@@ -13,8 +13,10 @@ var Router = Backbone.Router.extend({
       'main': 'main',
       'start': 'start',
       'daos': 'daos',
+      'create-select': 'createSelect',
       'import-select': 'importSelect',
-      'sync/*id': 'sync',
+      'sync/*type/*id': 'sync',
+      'create-dao/*id': 'createDao',
       'dao/*id': 'dao',
     },
     init: function() {
@@ -29,14 +31,20 @@ var Router = Backbone.Router.extend({
     daos: function() {
 		appView.trigger('daos');
     },
+    createSelect: function() {
+		appView.trigger('create_select');
+    },
     importSelect: function() {
 		appView.trigger('import_select');
     },
-    sync: function(id) {
-		appView.sync(id); //trigger('sync');
+    sync: function(type, id) {
+		appView.sync(type, id);
+    },
+    createDao: function(id) {
+		appView.createDao(id);
     },
     dao: function(id) {
-		appView.dao(id); //trigger('sync');
+		appView.dao(id);
     }
 });
 

@@ -9,9 +9,12 @@ const NodeSocket = require('./node_socket.js');
 
 const path = require('path');
 const paths = require('./paths');
+const _ = require('underscore');
 
 module.exports = {
 	run: function() {
+		var gethInfo = null;
+
         ipc.on('run_geth', function(event, message) {
             //console.log(event);
             /*console.log(message.command);
@@ -24,6 +27,7 @@ module.exports = {
             //event.sender.send('init_command', {'command':'run'});
 
             var args = message.params;
+			gethInfo = _.clone(args);
 
             var genesis_i = args.indexOf('--genesis');
             if (genesis_i>=0) {
@@ -48,7 +52,6 @@ module.exports = {
                 }
                 //args[datadir_i] = args[datadir_i].replace(/(\\)/, "\\\\");
             }
-            console.log(args);
 
 
             var nodeConnect;
@@ -81,7 +84,11 @@ module.exports = {
                 proc.kill('SIGINT');
                 nodeConnect.destroy();
             });
-
         });
+
+	    ipc.on('get_geth', function(event, message) {
+			console.log('get info');
+			event.sender.send('get_geth_response', gethInfo);
+		});
     }
 }

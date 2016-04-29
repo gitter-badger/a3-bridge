@@ -1,4 +1,1 @@
-{
-    "daos": [
-    ]
-}
+{"daos":[{"name":"test","desc":"Aira experemential network description","p2p_protocol":"Ethereum with Aira trusted miners","core_address":"0x132f2d4ed2ca3fe5c8c7515a94345bf5e7abc504","core_interface":"...","params":["--genesis","../gb/aira.json","--datadir","../blockchains/aira","--networkid","22","--port","32222"],"_id":1},{"name":"new test","desc":"Aira experemential network description","p2p_protocol":"Ethereum with Aira trusted miners","core_address":"0xd36629187fba8560bb2af39f1c8745f80d395e26","core_interface":"...","params":["--genesis","../gb/aira.json","--datadir","../blockchains/aira","--networkid","22","--port","32222"],"_id":2},{"name":"Aira experemential network","desc":"Aira experemential network description","p2p_protocol":"Ethereum with Aira trusted miners","core_address":"0x0","core_interface":"...","params":["--genesis","../gb/aira.json","--datadir","../blockchains/aira","--networkid","22","--port","32222"],"_id":3}]}

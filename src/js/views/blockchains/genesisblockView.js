@@ -5,7 +5,7 @@ var Backbone = require('backbone'),
 
 var GenesisblockView = Backbone.View.extend({
 	tagName:  'tr',
-	template: hbs.render('templates/import/genesisblock.hbs'),
+	template: hbs.render('templates/blockchains/genesisblock.hbs'),
 
 	initialize: function () {
 

@@ -5,7 +5,6 @@ var Backbone = require('backbone'),
 	hbs = require('../../helpers/hbs'),
 	paths = require('../../helpers/paths'),
 	config = require(paths.basepath +'/config/default'),
-	GenesisblocksCollection = require('../../collections/genesisblocks'),
 	Ipc = require('electron').ipcRenderer;
 
 var SyncView = Backbone.View.extend({
@@ -17,29 +16,28 @@ var SyncView = Backbone.View.extend({
 		'click .close_geth': 'closeGeth',
 	},
 
-	initialize: function (options) {
-		var _this = this;
-		Ipc.removeAllListeners(['init_command']);
+	startGeth: function () {
+        //var _this = this;
+		Ipc.removeAllListeners(['init_command']); // перед запуском убиваем старую прослушку
 		Ipc.on('init_command', function(event, message) {
 			if (message.command == 'start') {
-				_this.step1(message);
+				this.step1(message);
+			} else if (message.command == 'search_peer') {
+				this.step2(message);
+			} else if (message.command == 'progress') {
+				this.step3(message);
+			} else if (message.command == 'run') {
+                this.trigger('sync-finish');
 			}
-			if (message.command == 'search_peer') {
-				_this.step2(message);
-			}
-			if (message.command == 'progress') {
-				_this.step3(message);
-			}
-			if (message.command == 'run') {
-				_this.openDao();
-			}
-		});
-
-		var genesisblocksCollection = new GenesisblocksCollection();
-		this.model = genesisblocksCollection.get(options.genesisblock_id);
-
+		}.bind(this));
 		console.log(this.model.get('params'));
 		Ipc.send('run_geth', {'command':'run', 'params': this.model.get('params')});
+
+		/*console.log(this.model.get('params'));
+        var _this = this;
+        setTimeout(function() {
+            _this.trigger('sync-finish');
+        }, 3000);*/
 	},
 
 	step1: function (message) {
@@ -59,32 +57,6 @@ var SyncView = Backbone.View.extend({
 		var time = new Date();
 		this.$el.find('#log-sync').append('<p>Progress '+ message.progress + '% time '+ time.getTime() +'</p>');
 		$('#log-sync').scrollTop($('#log-sync')[0].scrollHeight);
-	},
-
-	openDao: function () {
-        var model = _.omit(this.model.toJSON(), '_id');
-		var is_dao = _.find(config.daos, {core_address: model.core_address, core_interface: model.core_interface});
-        if (!is_dao) {
-            var new_dao_id = 1
-            var last_dao = _.last(config.daos);
-            if (last_dao) {
-                new_dao_id = last_dao._id + 1;
-            }
-            console.log('last_dao', new_dao_id);
-            model._id = new_dao_id;
-    		config.daos.push(model);
-            var fs = require('fs');
-            var err = fs.writeFileSync(paths.basepath +'/config/default.json', JSON.stringify(config));
-            if(err) {
-                return console.log(err);
-            }
-        } else {
-            console.log('dao is', is_dao);
-            model = is_dao;
-        }
-
-		console.log('запускаем app');
-		window.router.navigate("dao/"+ model._id, { trigger: true });
 	},
 
 	skipSearchPeers: function () {
