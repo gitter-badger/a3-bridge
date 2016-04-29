@@ -28,18 +28,18 @@ var a3 = (function() {
 		return this._web3.eth.accounts;
 	}
 
-	A3.prototype.unlockAccount = function(account, password, cb, cbErr)
+	A3.prototype.unlockAccount = function(account, password, time, cb, cbErr)
 	{
-		if (password == '111') {
+		/*if (password == '111') {
 			cb(account);
 		} else {
 			cbErr(account);
 		}
-
-		return;
+		return;*/
+		time = time === undefined ? 20 : time;
         var nodeConnect = new NodeSocket(function(connect){
             connSocket = connect;
-            connSocket.send('personal_unlockAccount', [account, password, 20], function(result) {
+            connSocket.send('personal_unlockAccount', [account, password, time], function(result) {
                 console.log(result);
                 if (result == true) {
                     cb(account);

@@ -50,12 +50,16 @@ var Form = Backbone.Form.extend({
 
 		var accounts = this.a3.getAccounts();
 		this.fields.founder.editor.setOptions(accounts);
-		this.setValue('founder', accounts[0]);
+		if (accounts.hasOwnProperty(0)) {
+			this.setValue('founder', accounts[0]);
+		}
 
 		this.on('founder:change', function(form, titleEditor, extra) {
 			this.setBalance(titleEditor.getValue());
 		});
-		this.setBalance(accounts[0]);
+		if (accounts.hasOwnProperty(0)) {
+			this.setBalance(accounts[0]);
+		}
 		/*this.setCost();*/
 	},
 
@@ -105,7 +109,7 @@ var Form = Backbone.Form.extend({
 		this.listenTo(this.views.unlock, 'submit', function(){
 			console.log('submit', this.views.unlock.password);
 
-            this.a3.unlockAccount(founder, this.views.unlock.password, function(){
+            this.a3.unlockAccount(founder, this.views.unlock.password, 20, function(){
 				this.createLib(founder, name, cost);
 			}.bind(this), function(){
 				this.showMessageForm('danger', 'Error password.');
@@ -138,7 +142,7 @@ var Form = Backbone.Form.extend({
 	},
 
 	createDao: function(addr_lib, founder, name, cost) {
-        this.a3.unlockAccount(founder, this.views.unlock.password, function(){
+        this.a3.unlockAccount(founder, this.views.unlock.password, 20, function(){
 
 			var data = contracts.core_data.replace(new RegExp('__AddressArray__________________________', 'g'), addr_lib.replace('0x', ''));
 			var contract = this.a3.getContractNew(contracts.core_interface);
