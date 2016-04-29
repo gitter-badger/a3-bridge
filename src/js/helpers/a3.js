@@ -23,6 +23,11 @@ var a3 = (function() {
 		return this._web3.eth.contract(abi);
 	}
 
+	A3.prototype.getContract = function(abi, addr)
+	{
+		return this._web3.eth.contract(abi).at(addr);
+	}
+
 	A3.prototype.getAccounts = function()
 	{
 		return this._web3.eth.accounts;

@@ -17,7 +17,7 @@ var IndexView = Backbone.View.extend({
 		var daosCollection = new DaosCollection();
 		this.model = daosCollection.get(options.genesisblock_id);
 
-		var daoNodes = new DaoNodesCollection();
+		var daoNodes = new DaoNodesCollection({dao: this.model});
 		daoNodes.fetch();
 		this.views = {};
 		this.views.nodes = new NodesView({collection: daoNodes});

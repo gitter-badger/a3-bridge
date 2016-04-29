@@ -9,16 +9,27 @@ var Backbone = require('backbone'),
 var DaoNodes = Backbone.Collection.extend({
 	model: DaoModel,
 	a3: null,
-    initialize: function() {
+	dao: null,
+	contract: null,
+    initialize: function(options) {
+		this.dao = options.dao;
 		this.a3 = new A3();
-		//this.fetch();
+		this.contract = this.a3.getContract(this.dao.get('core_interface'), this.dao.get('core_address'));
     },
 
 	fetch: function(options) {
-		this.reset([
-			{name:'[default] Aira core storage', desc: 'Hello! At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint'},
-			{name:'q',desc:'as'}
-		]);
+		/*var nodes = [
+			{addr: '0x1111111', name:'[default] Aira core storage', desc: 'Hello! At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint'}
+		];*/
+		var nodes = [];
+		var len = this.contract.getNodeLength.call();
+		for (var i = 0; i < len; i++) {
+			var node = {};
+			node.addr = this.contract.getNodeByIndex.call(i);
+			node.name = this.contract.getNodeName.call(node.addr);
+			nodes.push(node);
+		}
+		this.reset(nodes);
     },
 });
 
